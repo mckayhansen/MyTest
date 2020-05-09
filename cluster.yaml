@@ -7,8 +7,6 @@ spec:
   api:
     loadBalancer:
       type: Public
-  authentication:
-    aws: {}
   authorization:
     rbac: {}
   channel: stable
@@ -48,8 +46,8 @@ spec:
     name: us-east-1a
     type: Private
     zone: us-east-1a
-  - cidr: 172.20.32.0/19
-    name: us-east-1a
+  - cidr: 172.20.0.0/22
+    name: utility-us-east-1a
     type: Utility
     zone: us-east-1a
   topology:
@@ -92,14 +90,13 @@ metadata:
 spec:
   image: kope.io/k8s-1.10-debian-stretch-amd64-hvm-ebs-2018-05-27
   machineType: t2.small
-  maxSize: 3
-  minSize: 3
+  maxSize: 2
+  minSize: 2
   nodeLabels:
     kops.k8s.io/instancegroup: nodes
   role: Node
   subnets:
   - us-east-1a
-
 
 ---
 
@@ -120,4 +117,3 @@ spec:
   role: Bastion
   subnets:
   - utility-us-east-1a
-
