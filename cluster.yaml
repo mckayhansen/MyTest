@@ -7,6 +7,8 @@ spec:
   api:
     loadBalancer:
       type: Public
+  authentication:
+    aws: {}
   authorization:
     rbac: {}
   channel: stable
@@ -69,7 +71,7 @@ metadata:
   name: master-us-east-2c
 spec:
   image: kope.io/k8s-1.10-debian-stretch-amd64-hvm-ebs-2018-05-27
-  machineType: t2.small
+  machineType: t2.micro
   maxSize: 1
   minSize: 1
   nodeLabels:
@@ -89,7 +91,7 @@ metadata:
   name: nodes
 spec:
   image: kope.io/k8s-1.10-debian-stretch-amd64-hvm-ebs-2018-05-27
-  machineType: t2.micro
+  machineType: t2.small
   maxSize: 2
   minSize: 2
   nodeLabels:
