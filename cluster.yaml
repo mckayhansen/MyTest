@@ -2,29 +2,35 @@ apiVersion: kops.k8s.io/v1alpha2
 kind: Cluster
 metadata:
   creationTimestamp: null
-  name: k8s.mrh.project
+  name: k8s.ennate.academy
 spec:
   api:
     loadBalancer:
       type: Public
-  authentication:
-    aws: {}
   authorization:
     rbac: {}
   channel: stable
   cloudProvider: aws
-  configBase: s3://k8s-mckay-project-state/k8s.mrh.project
-  dnsZone: k8s.mrh.project
+  configBase: s3://mrh-bucket/k8s.ennate.academy
+  dnsZone: k8s.ennate.academy
   etcdClusters:
   - cpuRequest: 200m
     etcdMembers:
-    - instanceGroup: master-us-east-2c
+    - instanceGroup: master-us-east-1a
+      name: a
+    - instanceGroup: master-us-east-1b
+      name: b
+    - instanceGroup: master-us-east-1c
       name: c
     memoryRequest: 100Mi
     name: main
   - cpuRequest: 100m
     etcdMembers:
-    - instanceGroup: master-us-east-2c
+    - instanceGroup: master-us-east-1a
+      name: a
+    - instanceGroup: master-us-east-1b
+      name: b
+    - instanceGroup: master-us-east-1c
       name: c
     memoryRequest: 100Mi
     name: events
@@ -36,7 +42,7 @@ spec:
   kubernetesApiAccess:
   - 0.0.0.0/0
   kubernetesVersion: 1.16.9
-  masterPublicName: api.k8s.mrh.project
+  masterPublicName: api.k8s.ennate.academy
   networkCIDR: 172.20.0.0/16
   networking:
     kuberouter: {}
@@ -45,16 +51,32 @@ spec:
   - 0.0.0.0/0
   subnets:
   - cidr: 172.20.32.0/19
-    name: us-east-2c
+    name: us-east-1a
     type: Private
-    zone: us-east-2c
+    zone: us-east-1a
+  - cidr: 172.20.64.0/19
+    name: us-east-1b
+    type: Private
+    zone: us-east-1b
+  - cidr: 172.20.96.0/19
+    name: us-east-1c
+    type: Private
+    zone: us-east-1c
   - cidr: 172.20.0.0/22
-    name: utility-us-east-2c
+    name: utility-us-east-1a
     type: Utility
-    zone: us-east-2c
+    zone: us-east-1a
+  - cidr: 172.20.4.0/22
+    name: utility-us-east-1b
+    type: Utility
+    zone: us-east-1b
+  - cidr: 172.20.8.0/22
+    name: utility-us-east-1c
+    type: Utility
+    zone: us-east-1c
   topology:
     bastion:
-      bastionPublicName: bastion.k8s.mrh.project
+      bastionPublicName: bastion.k8s.ennate.academy
     dns:
       type: Public
     masters: private
@@ -67,18 +89,18 @@ kind: InstanceGroup
 metadata:
   creationTimestamp: null
   labels:
-    kops.k8s.io/cluster: k8s.mrh.project
-  name: master-us-east-2c
+    kops.k8s.io/cluster: k8s.ennate.academy
+  name: master-us-east-1a
 spec:
   image: kope.io/k8s-1.10-debian-stretch-amd64-hvm-ebs-2018-05-27
-  machineType: t2.micro
+  machineType: m5.large
   maxSize: 1
   minSize: 1
   nodeLabels:
-    kops.k8s.io/instancegroup: master-us-east-2c
+    kops.k8s.io/instancegroup: master-us-east-1a
   role: Master
   subnets:
-  - us-east-2c
+  - us-east-1a
 
 ---
 
@@ -87,18 +109,60 @@ kind: InstanceGroup
 metadata:
   creationTimestamp: null
   labels:
-    kops.k8s.io/cluster: k8s.mrh.project
+    kops.k8s.io/cluster: k8s.ennate.academy
+  name: master-us-east-1b
+spec:
+  image: kope.io/k8s-1.10-debian-stretch-amd64-hvm-ebs-2018-05-27
+  machineType: m5.large
+  maxSize: 1
+  minSize: 1
+  nodeLabels:
+    kops.k8s.io/instancegroup: master-us-east-1b
+  role: Master
+  subnets:
+  - us-east-1b
+
+---
+
+apiVersion: kops.k8s.io/v1alpha2
+kind: InstanceGroup
+metadata:
+  creationTimestamp: null
+  labels:
+    kops.k8s.io/cluster: k8s.ennate.academy
+  name: master-us-east-1c
+spec:
+  image: kope.io/k8s-1.10-debian-stretch-amd64-hvm-ebs-2018-05-27
+  machineType: m5.large
+  maxSize: 1
+  minSize: 1
+  nodeLabels:
+    kops.k8s.io/instancegroup: master-us-east-1c
+  role: Master
+  subnets:
+  - us-east-1c
+
+---
+
+apiVersion: kops.k8s.io/v1alpha2
+kind: InstanceGroup
+metadata:
+  creationTimestamp: null
+  labels:
+    kops.k8s.io/cluster: k8s.ennate.academy
   name: nodes
 spec:
   image: kope.io/k8s-1.10-debian-stretch-amd64-hvm-ebs-2018-05-27
-  machineType: t2.small
-  maxSize: 3
-  minSize: 3
+  machineType: m5.large
+  maxSize: 6
+  minSize: 6
   nodeLabels:
     kops.k8s.io/instancegroup: nodes
   role: Node
   subnets:
-  - us-east-2c
+  - us-east-1a
+  - us-east-1b
+  - us-east-1c
 
 ---
 
@@ -107,7 +171,7 @@ kind: InstanceGroup
 metadata:
   creationTimestamp: null
   labels:
-    kops.k8s.io/cluster: k8s.mrh.project
+    kops.k8s.io/cluster: k8s.ennate.academy
   name: bastions
 spec:
   image: kope.io/k8s-1.10-debian-stretch-amd64-hvm-ebs-2018-05-27
@@ -118,4 +182,6 @@ spec:
     kops.k8s.io/instancegroup: bastions
   role: Bastion
   subnets:
-  - utility-us-east-2c
+  - utility-us-east-1a
+  - utility-us-east-1b
+  - utility-us-east-1c
