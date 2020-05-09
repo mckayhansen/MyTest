@@ -13,7 +13,7 @@ spec:
     rbac: {}
   channel: stable
   cloudProvider: aws
-  configBase: s3://k8s-mckay-state-store/k8s.mckay.project
+  configBase: s3://k8s-mckay-project-state/k8s.mckay.project
   dnsZone: k8s.mckay.project
   etcdClusters:
   - cpuRequest: 200m
