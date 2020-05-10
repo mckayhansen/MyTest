@@ -2,7 +2,7 @@ apiVersion: kops.k8s.io/v1alpha2
 kind: Cluster
 metadata:
   creationTimestamp: null
-  name: k8s.ennate.academy
+  name: k8s.mckay.net
 spec:
   api:
     loadBalancer:
@@ -13,18 +13,18 @@ spec:
     rbac: {}
   channel: stable
   cloudProvider: aws
-  configBase: s3://mrh-bucket/k8s.ennate.academy
-  dnsZone: k8s.ennate.academy
+  configBase: s3://k8s-mckay-state-store/k8s.mckay.net
+  dnsZone: k8s.mckay.net
   etcdClusters:
   - cpuRequest: 200m
     etcdMembers:
-    - instanceGroup: master-us-east-1a
+    - instanceGroup: master-us-east-2c
       name: a
     memoryRequest: 100Mi
     name: main
   - cpuRequest: 100m
     etcdMembers:
-    - instanceGroup: master-us-east-1a
+    - instanceGroup: master-us-east-2c
       name: a
     memoryRequest: 100Mi
     name: events
@@ -34,9 +34,9 @@ spec:
   kubelet:
     anonymousAuth: false
   kubernetesApiAccess:
-  - 0.0.0.0/0
+  - 65.43.215.170/0
   kubernetesVersion: 1.16.9
-  masterPublicName: api.k8s.ennate.academy
+  masterPublicName: api.k8s.mckay.net
   networkCIDR: 172.20.0.0/16
   networking:
     kuberouter: {}
