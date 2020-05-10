@@ -54,7 +54,7 @@ spec:
     zone: us-east-1a
   topology:
     bastion:
-      bastionPublicName: bastion.k8s.ennate.academy
+      bastionPublicName: bastion.k8s.mckay.net
     dns:
       type: Public
     masters: private
@@ -67,7 +67,7 @@ kind: InstanceGroup
 metadata:
   creationTimestamp: null
   labels:
-    kops.k8s.io/cluster: k8s.ennate.academy
+    kops.k8s.io/cluster: k8s.mckay.net
   name: master-us-east-1a
 spec:
   image: kope.io/k8s-1.10-debian-stretch-amd64-hvm-ebs-2018-05-27
@@ -87,7 +87,7 @@ kind: InstanceGroup
 metadata:
   creationTimestamp: null
   labels:
-    kops.k8s.io/cluster: k8s.ennate.academy
+    kops.k8s.io/cluster: k8s.mckay.net
   name: nodes
 spec:
   image: kope.io/k8s-1.10-debian-stretch-amd64-hvm-ebs-2018-05-27
@@ -107,7 +107,7 @@ kind: InstanceGroup
 metadata:
   creationTimestamp: null
   labels:
-    kops.k8s.io/cluster: k8s.ennate.academy
+    kops.k8s.io/cluster: k8s.mckay.net
   name: bastions
 spec:
   image: kope.io/k8s-1.10-debian-stretch-amd64-hvm-ebs-2018-05-27
